@@ -1,0 +1,82 @@
+import streamlit as st
+import datetime
+import os  # Fix for image existence check
+
+# Personal Details
+NAME = "SUJAN DEBNATH"
+TAGLINE = "A B.Tech Graduate"
+EMAIL = "debnathsujan643@gmail.com"
+LINKEDIN = "https://linkedin.com/in/sujan-debnath-7a4b4822a/"
+GITHUB = "https://github.com/Sd11012024"
+
+# Projects
+PROJECTS = [
+    {"title": "Project 1", "desc": "Brief description.", "link": "#"},
+    {"title": "Project 2", "desc": "More about it.", "link": "#"},
+]
+
+# Skills
+SKILLS = ["Python", "DSA", "DBMS", "OOPS", "Communications", "HTML", "CSS", 
+          "JavaScript", "SQL", "Git", "Problem Solving"]
+
+# Contact Form
+def contact():
+    st.subheader("Contact Me 📩")
+    with st.form("contact"):
+        name = st.text_input("Name")
+        email = st.text_input("Email")
+        msg = st.text_area("Message")
+        submitted = st.form_submit_button("Send")
+        if submitted:
+            st.success("Thank you! I'll get back to you soon.")
+
+# Main Function
+def main():
+    st.set_page_config(page_title=f"{NAME} - Portfolio", page_icon=":computer:")
+
+    c1, c2 = st.columns([1, 2])
+
+    # ✅ Fix: Check if the profile image exists before loading
+    if os.path.exists("profile.png"):
+        with c1:
+            st.image("profile.png", width=120)
+
+    with c2:
+        st.title(NAME)
+        st.subheader(TAGLINE)
+        st.write(f"📧 Email: {EMAIL}")
+        st.write(f"🔗 [LinkedIn]({LINKEDIN})")
+        st.write(f"🐙 [GitHub]({GITHUB})")
+        st.markdown("---")
+
+    # About Section
+    st.subheader("About Me 📝")
+    st.write("I am a passionate programmer with expertise in Python, web development, and problem-solving.")
+    st.markdown("---")
+
+    # Skills Section (Optimized Layout)
+    st.subheader("Skills 💡")
+    skill_cols = st.columns(3)  # Display 3 skills per row
+    for i, skill in enumerate(SKILLS):
+        with skill_cols[i % 3]:
+            st.markdown(f"- ✅ {skill}")
+    st.markdown("---")
+
+    # Projects Section
+    st.subheader("Projects 🚀")
+    for p in PROJECTS:
+        st.markdown(f"**{p['title']}**")
+        st.write(p['desc'])
+        st.write(f"[🔗 View Project]({p['link']})")
+        st.markdown("---")
+
+    # Contact Section
+    contact()
+
+    # Footer
+    current_year = datetime.datetime.now().year
+    st.markdown(f"© {NAME} {current_year}")
+
+# Run the app
+if __name__ == "__main__":
+    main()
